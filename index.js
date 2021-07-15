@@ -38,36 +38,36 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('ages', JSON.stringify(ages));
   };
 
-  const addToStorage = data => {
+  const addToStorage = (data) => {
     if (ages.length === 9) ages.shift();
     ages.push(data);
     saveToLocalStorage();
     generateCards();
   };
 
-  const deleteFromStorage = id => {
+  const deleteFromStorage = (id) => {
     ages.splice(id, 1);
     saveToLocalStorage();
     generateCards();
   };
 
   const form = document.getElementById('nameForm');
-  form.addEventListener('submit', event => {
+  form.addEventListener('submit', (event) => {
     event.preventDefault();
     const name = event.target.name.value;
 
     fetch('https://api.agify.io?name=' + name)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         addToStorage(data);
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
 
     event.target.name.value = '';
   });
 
   const cards = document.getElementById('cards');
-  cards.addEventListener('click', event => {
+  cards.addEventListener('click', (event) => {
     if (event.target.closest('[data-card-index]')) {
       const id = event.target
         .closest('[data-card-index]')
