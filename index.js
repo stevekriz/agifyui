@@ -1,9 +1,9 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   let ages = [];
 
   const generateCards = () => {
-    const cards = document.getElementById('cards');
-    cards.innerHTML = '';
+    const cards = document.getElementById("cards");
+    cards.innerHTML = "";
 
     for (let i = 0; i < ages.length; i++) {
       const html = `<div class="cardHeader">
@@ -27,15 +27,15 @@ document.addEventListener('DOMContentLoaded', () => {
         ].count.toLocaleString()}</div>
       `;
 
-      const card = document.createElement('div');
-      card.setAttribute('class', 'card');
+      const card = document.createElement("div");
+      card.setAttribute("class", "card");
       card.innerHTML = html;
       cards.prepend(card);
     }
   };
 
   const saveToLocalStorage = () => {
-    localStorage.setItem('ages', JSON.stringify(ages));
+    localStorage.setItem("ages", JSON.stringify(ages));
   };
 
   const addToStorage = (data) => {
@@ -51,34 +51,34 @@ document.addEventListener('DOMContentLoaded', () => {
     generateCards();
   };
 
-  const form = document.getElementById('nameForm');
-  form.addEventListener('submit', (event) => {
+  const form = document.getElementById("nameForm");
+  form.addEventListener("submit", (event) => {
     event.preventDefault();
     const name = event.target.name.value;
 
-    fetch('https://api.agify.io?name=' + name)
+    fetch("https://api.agify.io?name=" + name)
       .then((res) => res.json())
       .then((data) => {
         addToStorage(data);
       })
       .catch((error) => console.log(error));
 
-    event.target.name.value = '';
+    event.target.name.value = "";
   });
 
-  const cards = document.getElementById('cards');
-  cards.addEventListener('click', (event) => {
-    if (event.target.closest('[data-card-index]')) {
+  const cards = document.getElementById("cards");
+  cards.addEventListener("click", (event) => {
+    if (event.target.closest("[data-card-index]")) {
       const id = event.target
-        .closest('[data-card-index]')
-        .getAttribute('data-card-index');
+        .closest("[data-card-index]")
+        .getAttribute("data-card-index");
 
       deleteFromStorage(id);
     }
   });
 
   // rehydrate from local storage
-  const cachedAges = JSON.parse(localStorage.getItem('ages'));
+  const cachedAges = JSON.parse(localStorage.getItem("ages"));
   if (cachedAges) {
     ages = cachedAges;
     generateCards();
